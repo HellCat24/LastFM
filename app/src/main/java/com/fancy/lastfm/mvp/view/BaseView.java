@@ -1,4 +1,4 @@
-package com.fancy.lastfm.view.base;
+package com.fancy.lastfm.mvp.view;
 
 /**
  * @author Oleg Mazhukin

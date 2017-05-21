@@ -3,7 +3,7 @@ package com.fancy.lastfm.activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.fancy.lastfm.presenter.BasePresenter;
+import com.fancy.lastfm.mvp.presenter.BasePresenter;
 
 import butterknife.ButterKnife;
 

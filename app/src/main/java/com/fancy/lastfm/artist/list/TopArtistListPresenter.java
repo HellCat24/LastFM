@@ -2,7 +2,7 @@ package com.fancy.lastfm.artist.list;
 
 import com.fancy.lastfm.db.ArtistRepository;
 import com.fancy.lastfm.entity.Artist;
-import com.fancy.lastfm.presenter.BasePresenter;
+import com.fancy.lastfm.mvp.presenter.BasePresenter;
 import com.fancy.lastfm.rx.BaseSubscriber;
 import com.fancy.lastfm.rx.ErrorMessageProvider;
 

@@ -5,7 +5,6 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
-import java.util.concurrent.TimeoutException;
 
 import static junit.framework.Assert.assertEquals;
 

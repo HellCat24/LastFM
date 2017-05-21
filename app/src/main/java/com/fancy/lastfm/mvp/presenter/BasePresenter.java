@@ -1,4 +1,4 @@
-package com.fancy.lastfm.presenter;
+package com.fancy.lastfm.mvp.presenter;
 
 import android.support.annotation.VisibleForTesting;
 

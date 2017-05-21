@@ -1,6 +1,6 @@
 package com.fancy.lastfm.rx;
 
-import com.fancy.lastfm.view.base.BaseView;
+import com.fancy.lastfm.mvp.view.BaseView;
 
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
