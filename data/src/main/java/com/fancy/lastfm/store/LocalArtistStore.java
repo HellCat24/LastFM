@@ -2,6 +2,7 @@ package com.fancy.lastfm.store;
 
 import com.fancy.lastfm.entity.Album;
 import com.fancy.lastfm.entity.Artist;
+import com.fancy.lastfm.entity.DaoSession;
 
 import java.util.List;
 
@@ -13,26 +14,31 @@ import io.reactivex.Observable;
 
 public class LocalArtistStore implements ArtistStore {
 
-    public void saveArtistList(List<Artist> artistList){
+    private DaoSession daoSession;
 
+    public LocalArtistStore(DaoSession daoSession) {
+        this.daoSession = daoSession;
+    }
+
+    public void saveArtistList(List<Artist> artistList){
+        daoSession.insert(artistList);
     }
 
     public void saveAlbumList(List<Album> albumList){
-
+        daoSession.insert(albumList);
     }
 
     @Override
     public Observable<List<Artist>> getTopArtist(String country) {
-        return null;
+        return Observable.just(daoSession.getArtistDao().queryBuilder().list());
     }
 
     @Override
     public Observable<List<Album>> getTopAlbum(String artist) {
-        return null;
+        return Observable.just(daoSession.getAlbumDao().queryBuilder().list());
     }
 
     public String getSelectedCountry(){
-
         return null;
     }
 

@@ -7,6 +7,8 @@ import com.fancy.lastfm.rx.BaseProgressSubscriber;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.annotations.NonNull;
 
 /**
@@ -15,7 +17,8 @@ import io.reactivex.annotations.NonNull;
 
 public class ArtistDetailsPresenter extends BasePresenter<ArtistDetailView> {
 
-    private ArtistRepository repository;
+    @Inject
+    protected ArtistRepository repository;
 
     public ArtistDetailsPresenter(ArtistRepository repository) {
         this.repository = repository;

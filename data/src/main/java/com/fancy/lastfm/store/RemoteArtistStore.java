@@ -3,6 +3,7 @@ package com.fancy.lastfm.store;
 import com.fancy.lastfm.api.LastFmApi;
 import com.fancy.lastfm.entity.Album;
 import com.fancy.lastfm.entity.Artist;
+import com.fancy.lastfm.response.TopArtistsResponse;
 
 import java.util.List;
 

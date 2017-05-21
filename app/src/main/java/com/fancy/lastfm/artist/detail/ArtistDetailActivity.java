@@ -24,13 +24,6 @@ public class ArtistDetailActivity extends BaseActivity<TopArtistListPresenter> {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         presenter.onCreate();
-
-        recyclerView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
     }
 }
 

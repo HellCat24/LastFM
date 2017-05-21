@@ -5,5 +5,5 @@ package com.fancy.lastfm;
  */
 
 public enum CacheState {
-    LOCAL, REMOTE, REMOTE_THEN_LOCAL
+    LOCAL, REMOTE, LOCAL_THEN_REMOTE
 }

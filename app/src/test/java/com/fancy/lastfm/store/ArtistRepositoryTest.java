@@ -37,7 +37,7 @@ public class ArtistRepositoryTest {
 
     @Before
     public void setUp() {
-        repository = spy(new ArtistRepository(CacheState.REMOTE_THEN_LOCAL, localArtistStore, remoteArtistStore));
+        repository = spy(new ArtistRepository(CacheState.LOCAL_THEN_REMOTE, localArtistStore, remoteArtistStore));
 
         when(remoteArtistStore.getTopArtist(TEST_COUNTRY)).thenReturn(Observable.<List<Artist>>empty());
         when(localArtistStore.getTopArtist(TEST_COUNTRY)).thenReturn(Observable.<List<Artist>>empty());
@@ -47,12 +47,12 @@ public class ArtistRepositoryTest {
 
     @Test
     public void thatInitialStateRemoteThenLocal() {
-        Assert.assertTrue(repository.getCacheState() == CacheState.REMOTE_THEN_LOCAL);
+        Assert.assertTrue(repository.getCacheState() == CacheState.LOCAL_THEN_REMOTE);
     }
 
     @Test
     public void remoteThenLocalStateCallRemoteThenLocal() {
-        Assert.assertTrue(repository.getCacheState() == CacheState.REMOTE_THEN_LOCAL);
+        Assert.assertTrue(repository.getCacheState() == CacheState.LOCAL_THEN_REMOTE);
     }
 
     @Test

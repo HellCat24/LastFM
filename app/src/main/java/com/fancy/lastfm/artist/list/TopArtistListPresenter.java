@@ -7,6 +7,8 @@ import com.fancy.lastfm.rx.BaseSubscriber;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 
@@ -16,7 +18,8 @@ import io.reactivex.disposables.Disposable;
 
 public class TopArtistListPresenter extends BasePresenter<TopArtistView>{
 
-    private ArtistRepository repository;
+    @Inject
+    protected ArtistRepository repository;
 
     public TopArtistListPresenter(ArtistRepository repository) {
         this.repository = repository;
