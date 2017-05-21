@@ -11,8 +11,8 @@ import io.reactivex.disposables.Disposable;
 
 public abstract class BaseProgressSubscriber<T> extends BaseSubscriber<T> {
 
-    public BaseProgressSubscriber(BaseView view) {
-        super(view);
+    public BaseProgressSubscriber(BaseView view, ErrorMessageProvider errorHanlder) {
+        super(view, errorHanlder);
     }
 
     @Override

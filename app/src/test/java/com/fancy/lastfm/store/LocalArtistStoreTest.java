@@ -1,51 +1,91 @@
 package com.fancy.lastfm.store;
 
-import com.fancy.lastfm.api.LastFmApi;
+import com.fancy.lastfm.BuildConfig;
 import com.fancy.lastfm.entity.Album;
 import com.fancy.lastfm.entity.Artist;
+import com.fancy.lastfm.entity.DaoMaster;
+import com.fancy.lastfm.entity.DaoSession;
 
+import org.greenrobot.greendao.database.Database;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
+import org.robolectric.annotation.Config;
 
-import java.util.List;
+import java.util.ArrayList;
 
-import io.reactivex.Observable;
+import io.reactivex.observers.TestObserver;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
 
 /**
  * Created by Oleg on 21.05.2017.
  */
-
+@RunWith(RobolectricTestRunner.class)
+@Config(constants = BuildConfig.class)
 public class LocalArtistStoreTest {
 
     private static final String ARTIST_NAME = "Pink Floyd";
     private static final String TEST_COUNTRY = "Canada";
 
     @Mock
-    private LastFmApi lastFmApi;
+    private DaoSession daoSession;
 
-    private RemoteArtistStore remoteArtistStore;
+    private LocalArtistStore localArtistStore;
 
     @Before
     public void setUp() {
-        remoteArtistStore = new RemoteArtistStore(lastFmApi);
-        when(lastFmApi.getTopAlbum(ARTIST_NAME)).thenReturn(Observable.<List<Album>>empty());
-        when(lastFmApi.getTopArtist(TEST_COUNTRY)).thenReturn(Observable.<List<Artist>>empty());
+        DaoMaster.DevOpenHelper openHelper = new DaoMaster.DevOpenHelper(RuntimeEnvironment.application, null);
+        Database db = openHelper.getWritableDb();
+        daoSession = new DaoMaster(db).newSession();
+
+        localArtistStore = new LocalArtistStore(daoSession);
     }
 
     @Test
     public void getTopAlbum() {
-        remoteArtistStore.getTopAlbum(ARTIST_NAME);
-        verify(lastFmApi).getTopAlbum(ARTIST_NAME);
+        TestObserver testObserver = localArtistStore.getTopAlbum(ARTIST_NAME).test();
+        testObserver.assertComplete();
+        testObserver.assertNoErrors();
     }
 
-    @Before
+    @Test
     public void getTopArtist() {
-        remoteArtistStore.getTopArtist(TEST_COUNTRY);
-        verify(lastFmApi).getTopArtist(TEST_COUNTRY);
+        TestObserver testObserver = localArtistStore.getTopArtist(TEST_COUNTRY).test();
+        testObserver.assertComplete();
+        testObserver.assertNoErrors();
+    }
+
+    @Test
+    public void saveTopAlbum() {
+        Artist artist = new Artist("test", "123", "http");
+
+        localArtistStore.saveArtistList(new ArrayList<Artist>() {{
+            add(artist);
+        }});
+
+        //assertNotNull(artist.getId());
+        //assertNotNull(daoSession.getArtistDao().load(artist.getId()));
+        assertEquals(1, daoSession.getArtistDao().count());
+        assertEquals(1, daoSession.loadAll(Artist.class).size());
+    }
+
+    @Test
+    public void saveTopArtist() {
+        Album album = new Album("test", 123, "http");
+
+        localArtistStore.saveAlbumList(new ArrayList<Album>() {{
+            add(album);
+        }});
+
+        //assertNotNull(artist.getId());
+        //assertNotNull(daoSession.getArtistDao().load(artist.getId()));
+        assertEquals(1, daoSession.getAlbumDao().count());
+        assertEquals(1, daoSession.loadAll(Album.class).size());
     }
 
 }

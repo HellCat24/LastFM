@@ -5,6 +5,7 @@ import com.fancy.lastfm.artist.list.TopArtistListPresenter;
 import com.fancy.lastfm.dagger.module.AppModule;
 import com.fancy.lastfm.dagger.module.DataModule;
 import com.fancy.lastfm.dagger.module.NetModule;
+import com.fancy.lastfm.rx.BaseSubscriber;
 
 import javax.inject.Singleton;
 

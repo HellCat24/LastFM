@@ -1,5 +1,9 @@
 package com.fancy.lastfm.presenter;
 
+import android.support.annotation.VisibleForTesting;
+
+import com.fancy.lastfm.rx.ErrorHandler;
+
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
@@ -14,8 +18,11 @@ public class BasePresenter<T> {
 
     private T view;
     /*package*/ final CompositeDisposable compositeSubscription = new CompositeDisposable();
+    @VisibleForTesting
     @Inject
-    protected Function<Observable, Observable> observableSchedulerStrategy;
+    public Function<Observable, Observable> observableSchedulerStrategy;
+    @Inject
+    protected ErrorHandler errorHanlder;
 
     public void attachView(T view) {
         this.view = view;

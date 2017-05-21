@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -51,23 +52,23 @@ public class ArtistRepositoryTest {
     }
 
     @Test
-    public void remoteThenLocalStateCallRemoteThenLocal() {
-        Assert.assertTrue(repository.getCacheState() == CacheState.LOCAL_THEN_REMOTE);
-    }
-
-    @Test
     public void localStateCallOnlyLocal() {
-        repository.getTopArtist();
+        repository.setCacheState(CacheState.LOCAL);
+        repository.getTopArtist().test();
 
-        verify(localArtistStore).getTopArtist(repository.getSelectedCountry());
+        verify(localArtistStore).getTopArtist(localArtistStore.getSelectedCountry());
         verify(remoteArtistStore, never()).getTopArtist(localArtistStore.getSelectedCountry());
     }
 
     @Test
     public void remoteStateCallOnlyRemote() {
-        repository.getTopArtist();
+        ArrayList<Artist> arrayList = new ArrayList<>();
+        when(remoteArtistStore.getTopArtist(TEST_COUNTRY)).thenReturn(Observable.just(arrayList));
 
-        verify(remoteArtistStore).getTopArtist(repository.getSelectedCountry());
-        verify(localArtistStore, never()).getTopArtist(localArtistStore.getSelectedCountry());
+        repository.setCacheState(CacheState.REMOTE);
+        repository.getTopArtist().test();
+
+        verify(remoteArtistStore).getTopArtist(localArtistStore.getSelectedCountry());
+        verify(localArtistStore).saveArtistList(arrayList);
     }
 }

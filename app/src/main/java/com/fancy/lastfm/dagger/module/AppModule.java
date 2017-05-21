@@ -4,8 +4,12 @@ import android.app.Application;
 
 import com.fancy.lastfm.CacheState;
 import com.fancy.lastfm.db.ArtistRepository;
+import com.fancy.lastfm.rx.ErrorHandler;
+import com.fancy.lastfm.rx.ErrorMessageProvider;
 import com.fancy.lastfm.store.LocalArtistStore;
 import com.fancy.lastfm.store.RemoteArtistStore;
+
+
 
 import javax.inject.Singleton;
 
@@ -13,7 +17,6 @@ import dagger.Module;
 import dagger.Provides;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
@@ -44,11 +47,12 @@ public class AppModule {
     @Provides
     @Singleton
     Function<Observable, Observable> providesSchredulerStrategy() {
-        return new Function<Observable, Observable>() {
-            @Override
-            public Observable apply(@NonNull Observable observable) throws Exception {
-                return observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread(), true);
-            }
-        };
+        return observable -> observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread(), true);
+    }
+
+    @Provides
+    @Singleton
+    ErrorMessageProvider providesErrorMessageProvider() {
+        return new ErrorHandler();
     }
 }

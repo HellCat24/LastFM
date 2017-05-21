@@ -4,6 +4,7 @@ import com.fancy.lastfm.db.ArtistRepository;
 import com.fancy.lastfm.entity.Album;
 import com.fancy.lastfm.presenter.BasePresenter;
 import com.fancy.lastfm.rx.BaseProgressSubscriber;
+import com.fancy.lastfm.rx.ErrorMessageProvider;
 
 import java.util.List;
 
@@ -19,13 +20,17 @@ public class ArtistDetailsPresenter extends BasePresenter<ArtistDetailView> {
 
     @Inject
     protected ArtistRepository repository;
+    @Inject
+    protected ErrorMessageProvider errorHanlder;
 
-    public ArtistDetailsPresenter(ArtistRepository repository) {
+    @Inject
+    public ArtistDetailsPresenter(ArtistRepository repository, ErrorMessageProvider errorHanlder) {
         this.repository = repository;
+        this.errorHanlder = errorHanlder;
     }
 
     public void onCreate(String artist) {
-        subscribeIO(repository.getTopAlbum(artist)).subscribe(new BaseProgressSubscriber<List<Album>>(getView()) {
+        subscribeIO(repository.getTopAlbum(artist)).subscribe(new BaseProgressSubscriber<List<Album>>(getView(), errorHanlder) {
             @Override
             public void onNext(@NonNull List<Album> list) {
                 getView().showAlbums(list);
