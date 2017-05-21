@@ -17,4 +17,8 @@ public class CacheRepository {
     public void setCacheState(CacheState cacheState) {
         this.cacheState = cacheState;
     }
+
+    public CacheState getCacheState() {
+        return cacheState;
+    }
 }

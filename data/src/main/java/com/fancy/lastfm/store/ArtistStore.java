@@ -13,8 +13,8 @@ import io.reactivex.Observable;
 
 public interface ArtistStore {
 
-    Observable<List<Artist>> getTopArtist();
+    Observable<List<Artist>> getTopArtist(String country);
 
-    Observable<List<Album>> getTopAlbum();
+    Observable<List<Album>> getTopAlbum(String artist);
 
 }

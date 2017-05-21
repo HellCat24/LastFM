@@ -2,6 +2,9 @@ package com.fancy.lastfm.entity;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.greenrobot.greendao.annotation.Entity;
+
+@Entity
 public class Artist {
 
     @SerializedName("name")

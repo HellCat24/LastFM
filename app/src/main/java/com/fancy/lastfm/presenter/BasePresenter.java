@@ -1,5 +1,7 @@
 package com.fancy.lastfm.presenter;
 
+import android.support.annotation.VisibleForTesting;
+
 import com.fancy.domain.IoSchedulerStrategy;
 
 import javax.inject.Inject;
@@ -17,7 +19,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class BasePresenter<T> {
 
-    protected T view;
+    private T view;
     /*package*/ final CompositeDisposable compositeSubscription = new CompositeDisposable();
     @Inject
     @IoSchedulerStrategy
@@ -32,6 +34,9 @@ public class BasePresenter<T> {
         compositeSubscription.clear();
     }
 
+    public T getView() {
+        return view;
+    }
 
     protected Observable subscribeIO(Observable observable) {
         return observable.flatMap(new Function<Observable, Observable>() {

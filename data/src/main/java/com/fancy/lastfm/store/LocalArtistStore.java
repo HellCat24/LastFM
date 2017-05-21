@@ -13,21 +13,30 @@ import io.reactivex.Observable;
 
 public class LocalArtistStore implements ArtistStore {
 
-    @Override
-    public Observable<List<Artist>> getTopArtist() {
-        return null;
-    }
-
-    @Override
-    public Observable<List<Album>> getTopAlbum() {
-        return null;
-    }
-
     public void saveArtistList(List<Artist> artistList){
 
     }
 
     public void saveAlbumList(List<Album> albumList){
+
+    }
+
+    @Override
+    public Observable<List<Artist>> getTopArtist(String country) {
+        return null;
+    }
+
+    @Override
+    public Observable<List<Album>> getTopAlbum(String artist) {
+        return null;
+    }
+
+    public String getSelectedCountry(){
+
+        return null;
+    }
+
+    public void saveSelectedCountry(String country){
 
     }
 }

@@ -3,6 +3,8 @@ package com.fancy.lastfm.api;
 import com.fancy.lastfm.entity.Album;
 import com.fancy.lastfm.entity.Artist;
 
+import java.util.List;
+
 import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -13,8 +15,8 @@ import retrofit2.http.Path;
 public interface LastFmApi {
 
     @GET("geo.gettopartists")
-    Observable<Artist> getTopArtist(@Path("country") String country);
+    Observable<List<Artist>> getTopArtist(@Path("country") String country);
 
     @GET("artist.gettopalbums")
-    Observable<Album> getTopAlbum(@Path("artist") String artist);
+    Observable<List<Album>> getTopAlbum(@Path("artist") String artist);
 }

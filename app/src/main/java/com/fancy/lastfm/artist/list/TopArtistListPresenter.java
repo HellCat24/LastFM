@@ -8,6 +8,7 @@ import com.fancy.lastfm.rx.BaseSubscriber;
 import java.util.List;
 
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by Oleg on 21.05.2017.
@@ -17,11 +18,16 @@ public class TopArtistListPresenter extends BasePresenter<TopArtistView>{
 
     private ArtistRepository repository;
 
+    public TopArtistListPresenter(ArtistRepository repository) {
+        this.repository = repository;
+    }
+
     public void onCreate(){
-        subscribeIO(repository.getTopArtist()).subscribe(new BaseSubscriber<List<Artist>>(view){
+        subscribeIO(repository.getTopArtist()).subscribe(new BaseSubscriber<List<Artist>>(getView()){
+
             @Override
             public void onNext(@NonNull List<Artist> list) {
-                view.showArtists(list);
+                getView().showArtists(list);
             }
         });
     }

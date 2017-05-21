@@ -10,9 +10,9 @@ import io.reactivex.disposables.Disposable;
  * Created by Oleg on 21.05.2017.
  */
 
-public class BaseSubscriber<T> implements Observer<T> {
+public abstract class BaseSubscriber<T> implements Observer<T> {
 
-    private BaseView view;
+    protected BaseView view;
     private ErrorMessageProvider errorProvider;
 
     public BaseSubscriber(BaseView view) {
@@ -21,11 +21,6 @@ public class BaseSubscriber<T> implements Observer<T> {
 
     @Override
     public void onSubscribe(@NonNull Disposable d) {
-
-    }
-
-    @Override
-    public void onNext(@NonNull Object o) {
 
     }
 

@@ -16,13 +16,17 @@ public class RemoteArtistStore implements ArtistStore {
 
     private LastFmApi lastFmApi;
 
-    @Override
-    public Observable<List<Artist>> getTopArtist() {
-        return null;
+    public RemoteArtistStore(LastFmApi lastFmApi) {
+        this.lastFmApi = lastFmApi;
     }
 
     @Override
-    public Observable<List<Album>> getTopAlbum() {
-        return null;
+    public Observable<List<Artist>> getTopArtist(String country) {
+        return lastFmApi.getTopArtist(country);
+    }
+
+    @Override
+    public Observable<List<Album>> getTopAlbum(String artist) {
+        return lastFmApi.getTopAlbum(artist);
     }
 }
