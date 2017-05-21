@@ -1,4 +1,4 @@
-package com.fancy.lastfm.view;
+package com.fancy.lastfm.artist.list;
 
 import com.fancy.lastfm.entity.Artist;
 import com.fancy.lastfm.view.base.BaseView;

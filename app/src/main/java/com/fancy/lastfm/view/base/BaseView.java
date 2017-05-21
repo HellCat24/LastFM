@@ -5,6 +5,9 @@ package com.fancy.lastfm.view.base;
  */
 public interface BaseView {
 
-    void showError(String error);
+    void showProgress();
 
+    void hideProgress();
+
+    void showError(String error);
 }
