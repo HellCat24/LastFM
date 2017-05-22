@@ -21,7 +21,7 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * Created by Oleg on 21.05.2017.
+ * @author Oleg Mazhukin
  */
 @Module
 public class AppModule {

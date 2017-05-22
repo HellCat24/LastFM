@@ -13,7 +13,7 @@ import javax.inject.Inject;
 import io.reactivex.annotations.NonNull;
 
 /**
- * Created by Oleg on 21.05.2017.
+ * @author Oleg Mazhukin
  */
 
 public class TopArtistListPresenter extends BasePresenter<TopArtistView>{
@@ -21,12 +21,12 @@ public class TopArtistListPresenter extends BasePresenter<TopArtistView>{
     @Inject
     protected ArtistRepository repository;
     @Inject
-    protected ErrorMessageProvider errorHanlder;
+    protected ErrorMessageProvider errorHandler;
 
     @Inject
-    public TopArtistListPresenter(ArtistRepository repository, ErrorMessageProvider errorHanlder) {
+    public TopArtistListPresenter(ArtistRepository repository, ErrorMessageProvider errorHandler) {
         this.repository = repository;
-        this.errorHanlder = errorHanlder;
+        this.errorHandler = errorHandler;
     }
 
     public void onCreate(){

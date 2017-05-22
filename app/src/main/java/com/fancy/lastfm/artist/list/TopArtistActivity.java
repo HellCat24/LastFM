@@ -1,16 +1,17 @@
 package com.fancy.lastfm.artist.list;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 import com.fancy.lastfm.R;
-import com.fancy.lastfm.activity.BaseActivity;
+import com.fancy.lastfm.activity.ProgressActivity;
+import com.fancy.lastfm.entity.Artist;
+
+import java.util.List;
 
 import butterknife.BindView;
 
-public class TopArtistActivity extends BaseActivity<TopArtistListPresenter> {
+public class TopArtistActivity extends ProgressActivity<TopArtistListPresenter> implements TopArtistView {
 
     @BindView(R.id.top_artist_list)
     RecyclerView recyclerView;
@@ -20,12 +21,17 @@ public class TopArtistActivity extends BaseActivity<TopArtistListPresenter> {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         presenter.onCreate();
+    }
 
-        recyclerView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+    @Override
+    public void showArtists(List<Artist> artistList) {
+        ArtistAdapter artistAdapter = new ArtistAdapter();
+        artistAdapter.setDataList(artistList);
+        recyclerView.setAdapter(artistAdapter);
+    }
 
-            }
-        });
+    @Override
+    public void showArtistDetails(Artist artist) {
+
     }
 }

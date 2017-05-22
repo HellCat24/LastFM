@@ -9,7 +9,7 @@ import java.net.SocketTimeoutException;
 import static junit.framework.Assert.assertEquals;
 
 /**
- * Created by Oleg on 21.05.2017.
+ * @author Oleg Mazhukin
  */
 
 public class ErrorHandlerTest {

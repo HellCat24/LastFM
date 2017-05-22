@@ -8,7 +8,7 @@ import java.util.List;
 import io.reactivex.Observable;
 
 /**
- * Created by Oleg on 21.05.2017.
+ * @author Oleg Mazhukin
  */
 
 public interface ArtistStore {

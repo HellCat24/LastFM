@@ -23,7 +23,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 
 /**
- * Created by Oleg on 21.05.2017.
+ * @author Oleg Mazhukin
  */
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class)

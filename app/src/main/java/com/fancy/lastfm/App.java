@@ -9,7 +9,7 @@ import com.fancy.lastfm.dagger.module.DataModule;
 import com.fancy.lastfm.dagger.module.NetModule;
 
 /**
- * Created by Oleg on 21.05.2017.
+ * @author Oleg Mazhukin
  */
 
 public class App extends Application {

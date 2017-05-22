@@ -2,13 +2,14 @@ package com.fancy.lastfm.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import com.fancy.lastfm.mvp.presenter.BasePresenter;
 
 import butterknife.ButterKnife;
 
 /**
- * Created by Oleg on 21.05.2017.
+ * @author Oleg Mazhukin
  */
 public class BaseActivity<T extends BasePresenter> extends AppCompatActivity {
 
@@ -18,7 +19,6 @@ public class BaseActivity<T extends BasePresenter> extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-
     }
 
     @Override
@@ -31,5 +31,9 @@ public class BaseActivity<T extends BasePresenter> extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         presenter.detachView(this);
+    }
+
+    public void showError(String error) {
+        Toast.makeText(this, error, Toast.LENGTH_LONG).show();
     }
 }

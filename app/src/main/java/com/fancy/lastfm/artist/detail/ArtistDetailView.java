@@ -6,7 +6,7 @@ import com.fancy.lastfm.mvp.view.BaseView;
 import java.util.List;
 
 /**
- * Created by Oleg on 21.05.2017.
+ * @author Oleg Mazhukin
  */
 
 public interface ArtistDetailView extends BaseView {

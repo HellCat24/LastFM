@@ -6,7 +6,7 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 
 /**
- * Created by Oleg on 21.05.2017.
+ * @author Oleg Mazhukin
  */
 
 public abstract class BaseProgressSubscriber<T> extends BaseSubscriber<T> {

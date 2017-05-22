@@ -1,7 +1,7 @@
 package com.fancy.lastfm;
 
 /**
- * Created by Oleg on 21.05.2017.
+ * @author Oleg Mazhukin
  */
 
 public enum CacheState {

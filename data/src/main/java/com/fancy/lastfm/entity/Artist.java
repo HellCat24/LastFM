@@ -5,8 +5,11 @@ import com.google.gson.annotations.SerializedName;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 
+import java.io.Serializable;
+
 @Entity
-public class Artist {
+@SuppressWarnings("serial")
+public class Artist implements Serializable {
 
     @SerializedName("name")
     private String name;
