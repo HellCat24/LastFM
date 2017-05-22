@@ -9,7 +9,6 @@ import android.widget.TextView;
 import com.fancy.lastfm.R;
 import com.fancy.lastfm.adapter.BaseListAdapter;
 import com.fancy.lastfm.adapter.BaseViewHolder;
-import com.fancy.lastfm.artist.list.ArtistAdapter;
 import com.fancy.lastfm.entity.Album;
 
 import butterknife.BindView;
@@ -21,8 +20,8 @@ import butterknife.BindView;
 public class AlbumAdapter extends BaseListAdapter<Album, AlbumAdapter.AlbumHolder> {
 
     @Override
-    public ArtistAdapter.ArtistHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ArtistAdapter.ArtistHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_album, parent, false));
+    public AlbumHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new AlbumHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_album, parent, false));
     }
 
     public static class AlbumHolder extends BaseViewHolder<Album> {
