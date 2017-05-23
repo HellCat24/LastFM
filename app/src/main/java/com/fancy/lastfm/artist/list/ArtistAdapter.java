@@ -28,6 +28,6 @@ public class ArtistAdapter extends BaseListAdapter<Artist, ArtistHolder> {
     @Override
     public ArtistHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_artist, parent, false);
-        return new ArtistHolder(view);
+        return new ArtistHolder(view, onArtistClickListener);
     }
 }

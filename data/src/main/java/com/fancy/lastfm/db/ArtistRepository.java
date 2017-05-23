@@ -42,37 +42,34 @@ public class ArtistRepository extends CacheRepository {
             case LOCAL:
                 return getLocalTopAlbum(artist);
             case REMOTE:
-                return getRemoteTopAlbums(artist);
+                return getRemoteTopAlbum(artist);
             default:
-                return Observable.concatDelayError(Arrays.asList(getLocalTopAlbum(artist), getRemoteTopAlbums(artist)));
+                return Observable.concatDelayError(Arrays.asList(getLocalTopAlbum(artist), getRemoteTopAlbum(artist)));
         }
     }
 
     private Observable<List<Artist>> getLocalTopArtist() {
-        return localArtistStore.getTopArtist(getSelectedCountry());
+        return Observable.defer(() -> localArtistStore.getTopArtist(getSelectedCountry()));
     }
 
     public String getSelectedCountry() {
+        //return "Spain";
         return localArtistStore.getSelectedCountry();
     }
 
-    public Observable<List<Album>> getTopAlbum(String artist) {
-        return Observable.concatDelayError(Arrays.asList(getLocalTopAlbum(artist), getRemoteTopAlbum(artist)));
-    }
-
-    private Observable<List<Album>> getRemoteTopAlbum(String artist) {
-        return remoteArtistStore.getTopAlbum(artist);
+    public Observable saveCountry(String country) {
+        return Observable.just(country).map(s -> localArtistStore.saveSelectedCountry(s));
     }
 
     private Observable<List<Album>> getLocalTopAlbum(String artist) {
-        return localArtistStore.getTopAlbum(artist);
+        return Observable.defer(() -> localArtistStore.getTopAlbum(artist));
     }
 
     private Observable<List<Artist>> getRemoteTopArtist() {
-        return remoteArtistStore.getTopArtist(getSelectedCountry()).doAfterNext(artists -> localArtistStore.saveArtistList(artists));
+        return Observable.defer(() -> remoteArtistStore.getTopArtist(getSelectedCountry()).doAfterNext(artists -> localArtistStore.saveArtistList(artists)));
     }
 
-    private Observable<List<Album>> getRemoteTopAlbums(String artist) {
-        return getRemoteTopAlbum(artist).doAfterNext(albums -> localArtistStore.saveAlbumList(albums));
+    private Observable<List<Album>> getRemoteTopAlbum(String artist) {
+        return Observable.defer(() -> getRemoteTopAlbum(artist).doAfterNext(albums -> localArtistStore.saveAlbumList(albums)));
     }
 }

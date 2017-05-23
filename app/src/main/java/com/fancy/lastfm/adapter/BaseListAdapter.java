@@ -19,6 +19,7 @@ public abstract class BaseListAdapter<T, V extends BaseViewHolder<T>> extends Re
 
     public void setDataList(List<T> dataList) {
         this.dataList = dataList;
+        notifyDataSetChanged();
     }
 
     @Nullable
@@ -28,6 +29,6 @@ public abstract class BaseListAdapter<T, V extends BaseViewHolder<T>> extends Re
 
     @Override
     public int getItemCount() {
-        return dataList != null ? dataList.size() : dataList.size();
+        return dataList != null ? dataList.size() : 0;
     }
 }

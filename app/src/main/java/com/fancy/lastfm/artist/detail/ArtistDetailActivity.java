@@ -7,8 +7,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.fancy.lastfm.R;
@@ -28,12 +32,16 @@ public class ArtistDetailActivity extends ProgressActivity<ArtistDetailsPresente
 
     public static final String BUNDLE_ARTIST = "artist";
 
-    private static final String SHARED_ANIMATION_KEY_IMAGE = "artist_image";
+    private static final String SHARED_ANIMATION_KEY_IMAGE = "artist_detail_image";
 
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     @BindView(R.id.artist_detail_image)
     ImageView artistImage;
     @BindView(R.id.top_album_list)
     RecyclerView recyclerView;
+
+    private AlbumAdapter albumAdapter;
 
     public static void startWithAnimation(Activity activity, Artist offer, View image) {
         Intent intent = getBasicIntent(activity, offer);
@@ -57,23 +65,47 @@ public class ArtistDetailActivity extends ProgressActivity<ArtistDetailsPresente
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        initUI();
         Artist artist = (Artist) getIntent().getSerializableExtra(BUNDLE_ARTIST);
         presenter.onCreate(artist.getName());
         loadImage(artist);
     }
 
-    private void loadImage(Artist artist) {
-        Picasso.with(artistImage.getContext())
-                .load(artist.getImageUrl())
-                .fit()
-                .into(artistImage);
+    @Override
+    public int getLayoutId() {
+        return R.layout.activity_artist_detail;
+    }
+
+    @Override
+    public ArtistDetailsPresenter createPresenter() {
+        return new ArtistDetailsPresenter();
     }
 
     @Override
     public void showAlbums(List<Album> albumList) {
         AlbumAdapter albumAdapter = new AlbumAdapter();
         albumAdapter.setDataList(albumList);
+        recyclerView.setAdapter(albumAdapter);
+    }
+
+    private void loadImage(Artist artist) {
+        setTitle(artist.getName());
+        Picasso.with(artistImage.getContext())
+                .load(artist.getImageUrl())
+                .into(artistImage);
+    }
+
+    private void initUI() {
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(view -> finish());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        albumAdapter = new AlbumAdapter();
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(albumAdapter);
     }
 }

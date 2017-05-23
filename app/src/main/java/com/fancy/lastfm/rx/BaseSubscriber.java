@@ -2,8 +2,6 @@ package com.fancy.lastfm.rx;
 
 import com.fancy.lastfm.mvp.view.BaseView;
 
-import javax.inject.Inject;
-
 import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
@@ -15,12 +13,11 @@ import io.reactivex.disposables.Disposable;
 public abstract class BaseSubscriber<T> implements Observer<T> {
 
     protected BaseView view;
-    @Inject
-    protected ErrorMessageProvider errorHanlder;
+    protected ErrorMessageProvider errorHandler;
 
-    public BaseSubscriber(BaseView view, ErrorMessageProvider errorHanlder) {
+    public BaseSubscriber(BaseView view, ErrorMessageProvider errorHandler) {
         this.view = view;
-        this.errorHanlder = errorHanlder;
+        this.errorHandler = errorHandler;
     }
 
     @Override
@@ -30,7 +27,10 @@ public abstract class BaseSubscriber<T> implements Observer<T> {
 
     @Override
     public void onError(@NonNull Throwable e) {
-        view.showError(errorHanlder.getMessage(e));
+        if (errorHandler != null) {
+            view.showError(errorHandler.getMessage(e));
+        }
+        view.hideProgress();
     }
 
     @Override

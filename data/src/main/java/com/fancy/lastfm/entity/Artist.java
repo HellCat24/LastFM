@@ -11,15 +11,18 @@ import java.io.Serializable;
 @SuppressWarnings("serial")
 public class Artist implements Serializable {
 
+    @SerializedName("mbid")
+    private String id;
     @SerializedName("name")
     private String name;
     @SerializedName("listeners")
     private String listenersCount;
-
+    
     private String imageUrl = null;
 
-    @Generated(hash = 1259686718)
-    public Artist(String name, String listenersCount, String imageUrl) {
+    @Generated(hash = 454948368)
+    public Artist(String id, String name, String listenersCount, String imageUrl) {
+        this.id = id;
         this.name = name;
         this.listenersCount = listenersCount;
         this.imageUrl = imageUrl;
@@ -51,5 +54,13 @@ public class Artist implements Serializable {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getId() {
+        return this.id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

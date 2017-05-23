@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import io.reactivex.observers.TestObserver;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
 
 /**
  * @author Oleg Mazhukin
@@ -62,14 +61,12 @@ public class LocalArtistStoreTest {
 
     @Test
     public void saveTopAlbum() {
-        Artist artist = new Artist("test", "123", "http");
+        Artist artist = new Artist("1", "test", "123", "http");
 
         localArtistStore.saveArtistList(new ArrayList<Artist>() {{
             add(artist);
         }});
 
-        //assertNotNull(artist.getId());
-        //assertNotNull(daoSession.getArtistDao().load(artist.getId()));
         assertEquals(1, daoSession.getArtistDao().count());
         assertEquals(1, daoSession.loadAll(Artist.class).size());
     }
@@ -82,10 +79,7 @@ public class LocalArtistStoreTest {
             add(album);
         }});
 
-        //assertNotNull(artist.getId());
-        //assertNotNull(daoSession.getArtistDao().load(artist.getId()));
         assertEquals(1, daoSession.getAlbumDao().count());
         assertEquals(1, daoSession.loadAll(Album.class).size());
     }
-
 }

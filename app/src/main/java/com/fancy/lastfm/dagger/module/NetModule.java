@@ -6,20 +6,23 @@ import com.fancy.lastfm.entity.Album;
 import com.fancy.lastfm.entity.Artist;
 import com.fancy.lastfm.mapper.AlbumMapper;
 import com.fancy.lastfm.mapper.ArtistMapper;
+import com.fancy.lastfm.response.TopAlbumResponse;
+import com.fancy.lastfm.response.TopArtistsResponse;
 import com.fancy.lastfm.store.RemoteArtistStore;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -38,9 +41,10 @@ public class NetModule {
 
     @Provides
     @Singleton
-    OkHttpClient provideOkHttpClient(BaseRequestIntercepter baseRequestIntercepter) {
+    OkHttpClient provideOkHttpClient(BaseRequestIntercepter baseRequestIntercepter, HttpLoggingInterceptor loggingInterceptor) {
         return new OkHttpClient.Builder()
                 .addInterceptor(baseRequestIntercepter)
+                .addInterceptor(loggingInterceptor)
                 .build();
     }
 
@@ -52,18 +56,27 @@ public class NetModule {
 
     @Provides
     @Singleton
-    Gson provideGson(){
+    Gson provideGson() {
         return new GsonBuilder()
-                .registerTypeAdapter(new TypeToken<ArrayList<Artist>>(){}.getType(), new ArtistMapper())
-                .registerTypeAdapter(new TypeToken<ArrayList<Album>>(){}.getType(), new AlbumMapper())
+                .registerTypeAdapter(TopAlbumResponse.class, new AlbumMapper())
+                .registerTypeAdapter(TopArtistsResponse.class, new ArtistMapper())
                 .create();
     }
+
+    @Provides
+    @Singleton
+    HttpLoggingInterceptor provideHttpLoggingInterceptor() {
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        return logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
+    }
+
 
     @Provides
     @Singleton
     LastFmApi provideLastFmApi(Gson gson, OkHttpClient okHttpClient) {
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .baseUrl(baseUrl)
                 .client(okHttpClient)
                 .build();

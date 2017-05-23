@@ -14,4 +14,6 @@ public interface TopArtistView extends BaseView {
 
     void showArtists(List<Artist> artistList);
 
+    void setTitle(String title);
+
 }

@@ -2,7 +2,7 @@ package com.fancy.lastfm.artist.list;
 
 import com.fancy.lastfm.db.ArtistRepository;
 import com.fancy.lastfm.entity.Artist;
-import com.fancy.lastfm.rx.ErrorMessageProvider;
+import com.fancy.lastfm.rx.ErrorHandler;
 import com.fancy.lastfm.rx.ObservableSchedulerStrategy;
 
 import org.junit.Before;
@@ -19,6 +19,7 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -36,19 +37,19 @@ public class TopArtistListPresenterTest {
     private ArtistRepository repository;
     @Mock
     private TopArtistView view;
+    @Mock
+    private ErrorHandler errorHandler;
     @Spy
     private Function<Observable, Observable> observableSchedulerStrategy = new ObservableSchedulerStrategy();
 
+    @Spy
     @InjectMocks
     private TopArtistListPresenter presenter;
 
     @Before
     public void setUp() {
-        presenter = spy(new TopArtistListPresenter(repository, throwable -> TEST_ERROR));
-        presenter.observableSchedulerStrategy = observable -> observable;
         when(presenter.getView()).thenReturn(view);
-        when(repository.getSelectedCountry()).thenReturn(TEST_COUNTRY);
-        when(repository.getTopArtist()).thenReturn(Observable.<List<Artist>>empty());
+        when(errorHandler.getMessage(any())).thenReturn(TEST_ERROR);
     }
 
     @Test
@@ -69,6 +70,6 @@ public class TopArtistListPresenterTest {
         presenter.onCreate();
 
         verify(repository).getTopArtist();
-        verify(presenter.getView()).showError(TEST_ERROR);
+        verify(view).showError(TEST_ERROR);
     }
 }

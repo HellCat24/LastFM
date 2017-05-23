@@ -3,6 +3,7 @@ package com.fancy.lastfm.mvp.presenter;
 import android.support.annotation.VisibleForTesting;
 
 import com.fancy.lastfm.rx.ErrorHandler;
+import com.fancy.lastfm.rx.ErrorMessageProvider;
 
 import javax.inject.Inject;
 
@@ -14,7 +15,7 @@ import io.reactivex.functions.Function;
  * @author Oleg Mazhukin
  */
 
-public class BasePresenter<T> {
+public abstract class BasePresenter<T> {
 
     private T view;
     /*package*/ final CompositeDisposable compositeSubscription = new CompositeDisposable();
@@ -22,13 +23,14 @@ public class BasePresenter<T> {
     @Inject
     public Function<Observable, Observable> observableSchedulerStrategy;
     @Inject
-    protected ErrorHandler errorHanlder;
+    protected ErrorHandler errorHandler;
 
     public void attachView(T view) {
         this.view = view;
+        initComponents();
     }
 
-    public void detachView(T view) {
+    public void detachView() {
         this.view = null;
         compositeSubscription.clear();
     }
@@ -44,4 +46,6 @@ public class BasePresenter<T> {
             return Observable.empty();
         }
     }
+
+    public abstract void initComponents();
 }

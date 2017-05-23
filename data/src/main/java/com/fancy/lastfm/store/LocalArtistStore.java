@@ -1,7 +1,9 @@
 package com.fancy.lastfm.store;
 
 import com.fancy.lastfm.entity.Album;
+import com.fancy.lastfm.entity.AlbumDao;
 import com.fancy.lastfm.entity.Artist;
+import com.fancy.lastfm.entity.ArtistDao;
 import com.fancy.lastfm.entity.DaoSession;
 
 import java.util.List;
@@ -20,12 +22,12 @@ public class LocalArtistStore implements ArtistStore {
         this.daoSession = daoSession;
     }
 
-    public void saveArtistList(List<Artist> artistList){
-        daoSession.insert(artistList);
+    public void saveArtistList(List<Artist> artistList) {
+        daoSession.getArtistDao().insertInTx(artistList);
     }
 
-    public void saveAlbumList(List<Album> albumList){
-        daoSession.insert(albumList);
+    public void saveAlbumList(List<Album> albumList) {
+        daoSession.getAlbumDao().insertInTx(albumList);
     }
 
     @Override
@@ -35,14 +37,17 @@ public class LocalArtistStore implements ArtistStore {
 
     @Override
     public Observable<List<Album>> getTopAlbum(String artist) {
-        return Observable.just(daoSession.getAlbumDao().queryBuilder().list());
+        //return Observable.just(daoSession.getAlbumDao().queryBuilder().where(AlbumDao.Properties.Name.eq(artist)).list());
+        return Observable.just(daoSession.getAlbumDao().queryBuilder().where(AlbumDao.Properties.Name.eq(artist)).list());
     }
 
-    public String getSelectedCountry(){
+    public String getSelectedCountry() {
         return null;
     }
 
-    public void saveSelectedCountry(String country){
-
+    public int saveSelectedCountry(String country) {
+        daoSession.deleteAll(ArtistDao.class);
+        daoSession.deleteAll(AlbumDao.class);
+        return 0;
     }
 }

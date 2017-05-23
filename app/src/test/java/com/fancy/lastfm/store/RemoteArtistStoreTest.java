@@ -3,6 +3,8 @@ package com.fancy.lastfm.store;
 import com.fancy.lastfm.api.LastFmApi;
 import com.fancy.lastfm.entity.Album;
 import com.fancy.lastfm.entity.Artist;
+import com.fancy.lastfm.response.TopAlbumResponse;
+import com.fancy.lastfm.response.TopArtistsResponse;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,6 +16,7 @@ import java.util.List;
 
 import io.reactivex.Observable;
 
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -34,8 +37,8 @@ public class RemoteArtistStoreTest {
     @Before
     public void setUp() {
         remoteArtistStore = new RemoteArtistStore(lastFmApi);
-        when(lastFmApi.getTopAlbum(ARTIST_NAME)).thenReturn(Observable.<List<Album>>empty());
-        when(lastFmApi.getTopArtist(TEST_COUNTRY)).thenReturn(Observable.<List<Artist>>empty());
+        when(lastFmApi.getTopAlbum(ARTIST_NAME)).thenReturn(Observable.just(mock(TopAlbumResponse.class)));
+        when(lastFmApi.getTopArtist(TEST_COUNTRY)).thenReturn(Observable.just(mock(TopArtistsResponse.class)));
     }
 
     @Test

@@ -23,11 +23,13 @@ public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder {
     }
 
     protected void loadImage(String url, ImageView imageView) {
-        Picasso.with(imageView.getContext())
-                .load(url)
-                .fit()
-                .transform(cropCircleTransformation)
-                .into(imageView);
+        if (url != null && !url.isEmpty()) {
+            Picasso.with(imageView.getContext())
+                    .load(url)
+                    .fit()
+                    .transform(cropCircleTransformation)
+                    .into(imageView);
+        }
     }
 
     public abstract void bindItem(T t);

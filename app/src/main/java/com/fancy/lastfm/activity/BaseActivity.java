@@ -11,27 +11,28 @@ import butterknife.ButterKnife;
 /**
  * @author Oleg Mazhukin
  */
-public class BaseActivity<T extends BasePresenter> extends AppCompatActivity {
+public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity {
 
     protected T presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(getLayoutId());
         ButterKnife.bind(this);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
+        presenter = createPresenter();
         presenter.attachView(this);
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        presenter.detachView(this);
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.detachView();
     }
+
+    public abstract int getLayoutId();
+
+    public abstract T createPresenter();
 
     public void showError(String error) {
         Toast.makeText(this, error, Toast.LENGTH_LONG).show();

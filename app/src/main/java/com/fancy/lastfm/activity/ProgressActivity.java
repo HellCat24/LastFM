@@ -11,7 +11,7 @@ import butterknife.BindView;
 /**
  * @author Oleg Mazhukin
  */
-public class ProgressActivity<P extends BasePresenter> extends BaseActivity<P> {
+public abstract class ProgressActivity<P extends BasePresenter> extends BaseActivity<P> {
 
     @BindView(R.id.progressBar)
     ProgressBar progressBar;

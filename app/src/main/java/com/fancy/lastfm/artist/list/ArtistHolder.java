@@ -19,12 +19,16 @@ public class ArtistHolder extends BaseViewHolder<Artist> {
     @BindView(R.id.artist_listeners)
     TextView artistListeners;
 
-    public ArtistHolder(View v) {
+    private ArtistAdapter.ArtistClickListener clickListener;
+
+    public ArtistHolder(View v, ArtistAdapter.ArtistClickListener clickListener) {
         super(v);
+        this.clickListener = clickListener;
     }
 
     @Override
     public void bindItem(Artist artist) {
+        itemView.setOnClickListener(v -> clickListener.onArtistClicked(artist, icon));
         artistName.setText(artist.getName());
         artistListeners.setText(String.format("Listeners : %s", artist.getListenersCount()));
         loadImage(artist.getImageUrl(), icon);
