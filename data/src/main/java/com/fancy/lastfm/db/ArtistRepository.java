@@ -53,12 +53,15 @@ public class ArtistRepository extends CacheRepository {
     }
 
     public String getSelectedCountry() {
-        //return "Spain";
         return localArtistStore.getSelectedCountry();
     }
 
     public Observable saveCountry(String country) {
-        return Observable.just(country).map(s -> localArtistStore.saveSelectedCountry(s));
+        if (country.equals(getSelectedCountry())) {
+            return Observable.just(true);
+        } else {
+            return Observable.just(country).map(s -> localArtistStore.saveSelectedCountry(s));
+        }
     }
 
     private Observable<List<Album>> getLocalTopAlbum(String artist) {
@@ -66,10 +69,10 @@ public class ArtistRepository extends CacheRepository {
     }
 
     private Observable<List<Artist>> getRemoteTopArtist() {
-        return Observable.defer(() -> remoteArtistStore.getTopArtist(getSelectedCountry()).doAfterNext(artists -> localArtistStore.saveArtistList(artists)));
+        return Observable.defer(() -> remoteArtistStore.getTopArtist(getSelectedCountry()).flatMap(artistList -> localArtistStore.saveArtistList(artistList)));
     }
 
     private Observable<List<Album>> getRemoteTopAlbum(String artist) {
-        return Observable.defer(() -> getRemoteTopAlbum(artist).doAfterNext(albums -> localArtistStore.saveAlbumList(albums)));
+        return Observable.defer(() -> remoteArtistStore.getTopAlbum(artist).doAfterNext(albums -> localArtistStore.saveAlbumList(albums)));
     }
 }

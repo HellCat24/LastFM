@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.fancy.lastfm.artist.list.TopArtistActivity">
+    tools:context="com.fancy.lastfm.artistdetail.list.TopArtistActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/top_artist_list"

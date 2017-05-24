@@ -1,4 +1,4 @@
-package com.fancy.lastfm.artist.detail;
+package com.fancy.lastfm.artistlist;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,7 +40,7 @@ public class AlbumAdapter extends BaseListAdapter<Album, AlbumAdapter.AlbumHolde
         @Override
         public void bindItem(Album album) {
             albumName.setText(album.getName());
-            albumListeners.setText(String.format("Play Count : %d", album.getPlayCount()));
+            albumListeners.setText(String.format(itemView.getResources().getString(R.string.play_count), album.getPlayCount()));
             loadImage(album.getUrl(), icon);
         }
     }

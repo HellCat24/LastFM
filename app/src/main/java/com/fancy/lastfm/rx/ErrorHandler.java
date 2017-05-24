@@ -1,5 +1,6 @@
 package com.fancy.lastfm.rx;
 
+import com.fancy.lastfm.R;
 import com.google.gson.stream.MalformedJsonException;
 
 import java.io.IOException;
@@ -12,17 +13,25 @@ import javax.inject.Inject;
  */
 public class ErrorHandler implements ErrorMessageProvider {
 
-    @Inject
-    public ErrorHandler() {
+    public interface ErrorMessageProvider{
+        String getConnectionTimeOut();
+        String getConnectionError();
+        String getDefaultError();
+    }
+
+    ErrorMessageProvider provider;
+
+    public ErrorHandler(ErrorMessageProvider provider) {
+        this.provider = provider;
     }
 
     public String getMessage(Throwable throwable) {
         if (isTimeOutException(throwable)) {
-            return "Connection Timeout";
+            return provider.getConnectionTimeOut();
         } else if (isNetworkError(throwable)) {
-            return "Connection Error";
+            return provider.getConnectionError();
         } else {
-            return "Oops Error Occurred";
+            return provider.getDefaultError();
         }
     }
 

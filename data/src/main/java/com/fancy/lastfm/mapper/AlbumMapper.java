@@ -22,6 +22,9 @@ public class AlbumMapper implements JsonDeserializer<TopAlbumResponse> {
     private final static String ROOT_ELEMENT = "topalbums";
     private final static String LIST_ELEMENT = "album";
     private final static String IMAGE_TAG = "image";
+    private final static String IMAGE_URL = "#text";
+    private final static String ARTIST_TAG = "artist";
+    private final static String ARTIST_NAME_TAG = "name";
     private final static int LARGE_IMAGE_POSITION = 2;
 
     @Override
@@ -34,8 +37,18 @@ public class AlbumMapper implements JsonDeserializer<TopAlbumResponse> {
         JsonArray jsonArray = json.getAsJsonObject().getAsJsonObject(ROOT_ELEMENT).getAsJsonArray(LIST_ELEMENT);
         for (JsonElement jsonElement : jsonArray) {
             Album album = gson.fromJson(jsonElement, Album.class);
-            String url = jsonElement.getAsJsonObject().getAsJsonArray(IMAGE_TAG).get(LARGE_IMAGE_POSITION).getAsJsonObject().get("#text").getAsString();
+
+            // I had no time to investigate the issues so this is temporary fix, some albums didn't have id
+            if (album.getId() == null) {
+                continue;
+            }
+
+            String url = jsonElement.getAsJsonObject().getAsJsonArray(IMAGE_TAG).get(LARGE_IMAGE_POSITION).getAsJsonObject().get(IMAGE_URL).getAsString();
+            String artistName = jsonElement.getAsJsonObject().getAsJsonObject(ARTIST_TAG).get(ARTIST_NAME_TAG).getAsString();
+
             album.setUrl(url);
+            album.setArtist(artistName);
+
             albumList.add(album);
         }
 

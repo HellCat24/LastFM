@@ -1,4 +1,4 @@
-package com.fancy.lastfm.artist.list;
+package com.fancy.lastfm.artistdetail.list;
 
 import com.fancy.lastfm.db.ArtistRepository;
 import com.fancy.lastfm.entity.Artist;

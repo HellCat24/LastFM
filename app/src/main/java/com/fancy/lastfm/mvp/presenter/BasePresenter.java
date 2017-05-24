@@ -3,13 +3,14 @@ package com.fancy.lastfm.mvp.presenter;
 import android.support.annotation.VisibleForTesting;
 
 import com.fancy.lastfm.rx.ErrorHandler;
-import com.fancy.lastfm.rx.ErrorMessageProvider;
 
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
+import io.reactivex.observers.DisposableObserver;
 
 /**
  * @author Oleg Mazhukin
@@ -17,13 +18,14 @@ import io.reactivex.functions.Function;
 
 public abstract class BasePresenter<T> {
 
-    private T view;
-    /*package*/ final CompositeDisposable compositeSubscription = new CompositeDisposable();
     @VisibleForTesting
     @Inject
     public Function<Observable, Observable> observableSchedulerStrategy;
     @Inject
     protected ErrorHandler errorHandler;
+
+    private T view;
+    private CompositeDisposable compositeSubscription = new CompositeDisposable();
 
     public void attachView(T view) {
         this.view = view;
@@ -39,11 +41,11 @@ public abstract class BasePresenter<T> {
         return view;
     }
 
-    protected Observable subscribeIO(Observable observable) {
+    protected <V> void subscribeIO(Observable<V> observable, DisposableObserver<V> observer) {
         try {
-            return observableSchedulerStrategy.apply(observable);
+            compositeSubscription.add((Disposable) observableSchedulerStrategy.apply(observable).subscribeWith(observer));
         } catch (Exception e) {
-            return Observable.empty();
+            throw new IllegalStateException("Failed to subscribe" + observable + " with " + observable);
         }
     }
 

@@ -1,9 +1,10 @@
-package com.fancy.lastfm.artist.detail;
+package com.fancy.lastfm.artistdetail.detail;
 
+import com.fancy.lastfm.artistlist.ArtistDetailView;
+import com.fancy.lastfm.artistlist.ArtistDetailsPresenter;
 import com.fancy.lastfm.db.ArtistRepository;
 import com.fancy.lastfm.entity.Album;
 import com.fancy.lastfm.rx.ErrorHandler;
-import com.fancy.lastfm.rx.ErrorMessageProvider;
 import com.fancy.lastfm.rx.ObservableSchedulerStrategy;
 
 import org.junit.Before;
@@ -21,7 +22,6 @@ import io.reactivex.Observable;
 import io.reactivex.functions.Function;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;

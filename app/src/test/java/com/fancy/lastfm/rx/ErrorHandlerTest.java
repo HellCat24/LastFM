@@ -18,7 +18,22 @@ public class ErrorHandlerTest {
 
     @Before
     public void setUp() {
-        errorHandler = new ErrorHandler();
+        errorHandler = new ErrorHandler(new ErrorHandler.ErrorMessageProvider() {
+            @Override
+            public String getConnectionTimeOut() {
+                return "Connection Timeout";
+            }
+
+            @Override
+            public String getConnectionError() {
+                return "Connection Error";
+            }
+
+            @Override
+            public String getDefaultError() {
+                return "Oops Error Occurred";
+            }
+        });
     }
 
     @Test

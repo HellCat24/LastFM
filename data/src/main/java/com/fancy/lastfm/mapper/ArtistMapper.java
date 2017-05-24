@@ -22,6 +22,7 @@ public class ArtistMapper implements JsonDeserializer<TopArtistsResponse> {
     private final static String ROOT_ELEMENT = "topartists";
     private final static String LIST_ELEMENT = "artist";
     private final static String IMAGE_TAG = "image";
+    private final static String IMAGE_URL = "#text";
     private final static int LARGE_IMAGE_POSITION = 2;
 
     @Override
@@ -34,7 +35,7 @@ public class ArtistMapper implements JsonDeserializer<TopArtistsResponse> {
         JsonArray jsonArray = json.getAsJsonObject().getAsJsonObject(ROOT_ELEMENT).getAsJsonArray(LIST_ELEMENT);
         for (JsonElement jsonElement : jsonArray) {
             Artist artist = gson.fromJson(jsonElement, Artist.class);
-            String url = jsonElement.getAsJsonObject().getAsJsonArray(IMAGE_TAG).get(LARGE_IMAGE_POSITION).getAsJsonObject().get("#text").getAsString();
+            String url = jsonElement.getAsJsonObject().getAsJsonArray(IMAGE_TAG).get(LARGE_IMAGE_POSITION).getAsJsonObject().get(IMAGE_URL).getAsString();
             artist.setImageUrl(url);
             artistList.add(artist);
         }

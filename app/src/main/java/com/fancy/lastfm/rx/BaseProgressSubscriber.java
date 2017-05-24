@@ -16,8 +16,8 @@ public abstract class BaseProgressSubscriber<T> extends BaseSubscriber<T> {
     }
 
     @Override
-    public void onSubscribe(@NonNull Disposable d) {
-        super.onSubscribe(d);
+    protected void onStart() {
+        super.onStart();
         view.showProgress();
     }
 

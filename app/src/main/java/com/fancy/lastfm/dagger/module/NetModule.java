@@ -60,6 +60,7 @@ public class NetModule {
         return new GsonBuilder()
                 .registerTypeAdapter(TopAlbumResponse.class, new AlbumMapper())
                 .registerTypeAdapter(TopArtistsResponse.class, new ArtistMapper())
+                .excludeFieldsWithoutExposeAnnotation()
                 .create();
     }
 

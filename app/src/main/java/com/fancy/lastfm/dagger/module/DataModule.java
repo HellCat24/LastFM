@@ -2,6 +2,7 @@ package com.fancy.lastfm.dagger.module;
 
 import android.app.Application;
 
+import com.fancy.lastfm.R;
 import com.fancy.lastfm.entity.DaoMaster;
 import com.fancy.lastfm.entity.DaoSession;
 import com.fancy.lastfm.store.LocalArtistStore;
@@ -28,7 +29,17 @@ public class DataModule {
     }
 
     @Provides
-    LocalArtistStore providesLocalArtistStore(DaoSession daoSession) {
-        return new LocalArtistStore(daoSession);
+    LocalArtistStore providesLocalArtistStore(DaoSession daoSession, String defaultCountry) {
+        return new LocalArtistStore(daoSession, defaultCountry);
+    }
+
+    @Provides
+    String providesDefaultCountry(String[] countryList) {
+        return countryList[0];
+    }
+
+    @Provides
+    String[] providesCountryArray(Application application) {
+        return application.getResources().getStringArray(R.array.country_array);
     }
 }

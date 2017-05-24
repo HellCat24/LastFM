@@ -1,11 +1,11 @@
-package com.fancy.lastfm.artist.list;
+package com.fancy.lastfm.artistdetail.list;
 
 import com.fancy.lastfm.App;
 import com.fancy.lastfm.db.ArtistRepository;
 import com.fancy.lastfm.entity.Artist;
 import com.fancy.lastfm.mvp.presenter.BasePresenter;
 import com.fancy.lastfm.rx.BaseProgressSubscriber;
-import com.fancy.lastfm.rx.ErrorMessageProvider;
+import com.fancy.lastfm.rx.BaseSubscriber;
 
 import java.util.List;
 
@@ -27,7 +27,12 @@ public class TopArtistListPresenter extends BasePresenter<TopArtistView> {
     }
 
     public void onCountrySelected(String country) {
-        subscribeIO(repository.saveCountry(country).doOnNext(o -> loadArtist()));
+        subscribeIO(repository.saveCountry(country), new BaseSubscriber(getView(), errorHandler) {
+            @Override
+            public void onNext(@NonNull Object o) {
+                loadArtist();
+            }
+        });
     }
 
     @Override
@@ -36,13 +41,12 @@ public class TopArtistListPresenter extends BasePresenter<TopArtistView> {
     }
 
     private void loadArtist() {
-        subscribeIO(repository.getTopArtist()).doOnSubscribe(disposable -> getView().setTitle(repository.getSelectedCountry()))
-                .subscribe(new BaseProgressSubscriber<List<Artist>>(getView(), errorHandler) {
+        subscribeIO(repository.getTopArtist(), (new BaseProgressSubscriber<List<Artist>>(getView(), errorHandler) {
 
-                    @Override
-                    public void onNext(@NonNull List<Artist> list) {
-                        getView().showArtists(list);
-                    }
-                });
+            @Override
+            public void onNext(@NonNull List<Artist> list) {
+                getView().showArtists(list);
+            }
+        }));
     }
 }

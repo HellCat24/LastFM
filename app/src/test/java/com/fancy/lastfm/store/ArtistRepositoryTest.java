@@ -56,8 +56,8 @@ public class ArtistRepositoryTest {
         repository.setCacheState(CacheState.LOCAL);
         repository.getTopArtist().test();
 
-        verify(localArtistStore).getTopArtist(localArtistStore.getSelectedCountry());
-        verify(remoteArtistStore, never()).getTopArtist(localArtistStore.getSelectedCountry());
+        verify(localArtistStore).getTopArtist(TEST_COUNTRY);
+        verify(remoteArtistStore, never()).getTopArtist(TEST_COUNTRY);
     }
 
     @Test
@@ -68,7 +68,7 @@ public class ArtistRepositoryTest {
         repository.setCacheState(CacheState.REMOTE);
         repository.getTopArtist().test();
 
-        verify(remoteArtistStore).getTopArtist(localArtistStore.getSelectedCountry());
+        verify(remoteArtistStore).getTopArtist(TEST_COUNTRY);
         verify(localArtistStore).saveArtistList(arrayList);
     }
 }

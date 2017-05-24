@@ -3,6 +3,7 @@ package com.fancy.lastfm.dagger.module;
 import android.app.Application;
 
 import com.fancy.lastfm.CacheState;
+import com.fancy.lastfm.R;
 import com.fancy.lastfm.db.ArtistRepository;
 import com.fancy.lastfm.rx.ErrorHandler;
 import com.fancy.lastfm.rx.ErrorMessageProvider;
@@ -52,7 +53,22 @@ public class AppModule {
 
     @Provides
     @Singleton
-    ErrorMessageProvider providesErrorMessageProvider() {
-        return new ErrorHandler();
+    ErrorHandler providesErrorMessageProvider() {
+        return new ErrorHandler(new ErrorHandler.ErrorMessageProvider() {
+            @Override
+            public String getConnectionTimeOut() {
+                return mApplication.getString(R.string.connectiom_time_out);
+            }
+
+            @Override
+            public String getConnectionError() {
+                return mApplication.getString(R.string.connection_error);
+            }
+
+            @Override
+            public String getDefaultError() {
+                return mApplication.getString(R.string.server_error);
+            }
+        });
     }
 }

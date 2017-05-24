@@ -1,4 +1,4 @@
-package com.fancy.lastfm;
+package com.fancy.lastfm.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;

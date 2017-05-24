@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">LastFM</string>
+    <string name="popular_artist">Popular Artists</string>
+    <string name="play_count">Play Count : %d</string>
+    <string name="listeners_count">Listeners : %s</string>
+    <string name="connectiom_time_out">Connection Timeout</string>
+    <string name="connection_error">Connection Error</string>
+    <string name="server_error">Oops Error Occurred</string>
 </resources>

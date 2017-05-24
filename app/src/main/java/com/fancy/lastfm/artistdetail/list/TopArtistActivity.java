@@ -1,4 +1,4 @@
-package com.fancy.lastfm.artist.list;
+package com.fancy.lastfm.artistdetail.list;
 
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
@@ -13,9 +13,10 @@ import android.widget.Spinner;
 
 import com.fancy.lastfm.R;
 import com.fancy.lastfm.activity.ProgressActivity;
-import com.fancy.lastfm.artist.detail.ArtistDetailActivity;
+import com.fancy.lastfm.artistlist.ArtistDetailActivity;
 import com.fancy.lastfm.entity.Artist;
 
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -27,6 +28,8 @@ public class TopArtistActivity extends ProgressActivity<TopArtistListPresenter> 
 
     private ArrayAdapter<CharSequence> countryAdapter;
     private ArtistAdapter artistAdapter;
+
+    private Spinner countrySpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,11 +52,18 @@ public class TopArtistActivity extends ProgressActivity<TopArtistListPresenter> 
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.country_menu, menu);
         MenuItem item = menu.findItem(R.id.spinner);
-        Spinner spinner = (Spinner) MenuItemCompat.getActionView(item);
-        spinner.setOnItemSelectedListener(this);
-        countryAdapter = ArrayAdapter.createFromResource(this, R.array.country_array, android.R.layout.simple_spinner_item);
+
+        String[] countryArray = getResources().getStringArray(R.array.country_array);
+
+        countrySpinner = (Spinner) MenuItemCompat.getActionView(item);
+        countryAdapter = new ArrayAdapter<>(this, R.layout.item_spinner_country, countryArray);
+
+        int position = Arrays.asList(countryArray).indexOf(presenter.repository.getSelectedCountry());
         countryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(countryAdapter);
+        countrySpinner.setAdapter(countryAdapter);
+
+        countrySpinner.setSelection(position);
+        countrySpinner.setOnItemSelectedListener(this);
         return true;
     }
 
@@ -63,18 +73,14 @@ public class TopArtistActivity extends ProgressActivity<TopArtistListPresenter> 
     }
 
     @Override
-    public void setTitle(String title) {
-        super.setTitle(title);
-    }
-
-    @Override
     public void onArtistClicked(Artist artist, View icon) {
         ArtistDetailActivity.startWithAnimation(this, artist, icon);
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        presenter.onCountrySelected((String) countryAdapter.getItem(position));
+        CharSequence countryName = countryAdapter.getItem(position);
+        presenter.onCountrySelected((String) countryName);
     }
 
     @Override
@@ -83,6 +89,8 @@ public class TopArtistActivity extends ProgressActivity<TopArtistListPresenter> 
     }
 
     private void initUI() {
+        setTitle(R.string.popular_artist);
+
         artistAdapter = new ArtistAdapter(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(artistAdapter);

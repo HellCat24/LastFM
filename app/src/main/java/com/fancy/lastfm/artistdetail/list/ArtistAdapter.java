@@ -1,4 +1,4 @@
-package com.fancy.lastfm.artist.list;
+package com.fancy.lastfm.artistdetail.list;
 
 import android.view.LayoutInflater;
 import android.view.View;

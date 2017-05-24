@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
 
 import java.io.Serializable;
 
@@ -11,6 +12,7 @@ import java.io.Serializable;
 @SuppressWarnings("serial")
 public class Artist implements Serializable {
 
+    @Id
     @SerializedName("mbid")
     private String id;
     @SerializedName("name")

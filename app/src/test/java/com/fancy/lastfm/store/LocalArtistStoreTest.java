@@ -3,6 +3,7 @@ package com.fancy.lastfm.store;
 import com.fancy.lastfm.BuildConfig;
 import com.fancy.lastfm.entity.Album;
 import com.fancy.lastfm.entity.Artist;
+import com.fancy.lastfm.entity.Country;
 import com.fancy.lastfm.entity.DaoMaster;
 import com.fancy.lastfm.entity.DaoSession;
 
@@ -16,10 +17,13 @@ import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.observers.TestObserver;
 
 import static junit.framework.Assert.assertEquals;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
 
 /**
  * @author Oleg Mazhukin
@@ -40,9 +44,9 @@ public class LocalArtistStoreTest {
     public void setUp() {
         DaoMaster.DevOpenHelper openHelper = new DaoMaster.DevOpenHelper(RuntimeEnvironment.application, null);
         Database db = openHelper.getWritableDb();
-        daoSession = new DaoMaster(db).newSession();
+        daoSession = spy(new DaoMaster(db).newSession());
 
-        localArtistStore = new LocalArtistStore(daoSession);
+        localArtistStore = new LocalArtistStore(daoSession, TEST_COUNTRY);
     }
 
     @Test
@@ -67,19 +71,45 @@ public class LocalArtistStoreTest {
             add(artist);
         }});
 
-        assertEquals(1, daoSession.getArtistDao().count());
-        assertEquals(1, daoSession.loadAll(Artist.class).size());
+        TestObserver<List<Artist>> test = localArtistStore.getTopArtist(TEST_COUNTRY).test();
+        List<Object> objects = test.getEvents().get(0);
+        assertEquals(1, objects.size());
+        Artist savedArtist = ((List<Artist>) objects.get(0)).get(0);
+        assertEquals(savedArtist.getId(), artist.getId());
+        assertEquals(savedArtist.getImageUrl(), artist.getImageUrl());
+        assertEquals(savedArtist.getListenersCount(), artist.getListenersCount());
+        assertEquals(savedArtist.getName(), artist.getName());
     }
 
     @Test
     public void saveTopArtist() {
-        Album album = new Album("test", 123, "http");
+        String artistName = "Rage Against The Machine";
+        Album album = new Album("sda", "test", 123, "http", artistName);
 
         localArtistStore.saveAlbumList(new ArrayList<Album>() {{
             add(album);
         }});
 
-        assertEquals(1, daoSession.getAlbumDao().count());
-        assertEquals(1, daoSession.loadAll(Album.class).size());
+        TestObserver<List<Album>> test = localArtistStore.getTopAlbum(artistName).test();
+        List<Object> objects = test.getEvents().get(0);
+        assertEquals(1, objects.size());
+        Album savedAlbum = ((List<Album>) objects.get(0)).get(0);
+        assertEquals(savedAlbum.getId(), album.getId());
+        assertEquals(savedAlbum.getName(), album.getName());
+        assertEquals(savedAlbum.getPlayCount(), album.getPlayCount());
+        assertEquals(savedAlbum.getUrl(), album.getUrl());
+        assertEquals(savedAlbum.getArtist(), album.getArtist());
+    }
+
+    @Test
+    public void saveCountry() {
+
+        localArtistStore.saveSelectedCountry(TEST_COUNTRY);
+
+        verify(daoSession).deleteAll(Country.class);
+        verify(daoSession).deleteAll(Artist.class);
+        verify(daoSession).deleteAll(Album.class);
+
+        assertEquals(localArtistStore.getSelectedCountry(), TEST_COUNTRY);
     }
 }

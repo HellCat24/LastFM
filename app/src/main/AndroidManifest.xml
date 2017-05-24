@@ -12,7 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".artist.list.TopArtistActivity">
+        <activity
+            android:name=".artistdetail.list.TopArtistActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -21,7 +23,8 @@
         </activity>
 
         <activity
-            android:name=".artist.detail.ArtistDetailActivity"
+            android:name=".artistlist.ArtistDetailActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar"/>
 
     </application>

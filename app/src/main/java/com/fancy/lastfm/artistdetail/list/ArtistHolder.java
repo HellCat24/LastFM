@@ -1,4 +1,4 @@
-package com.fancy.lastfm.artist.list;
+package com.fancy.lastfm.artistdetail.list;
 
 import android.view.View;
 import android.widget.ImageView;
@@ -30,7 +30,7 @@ public class ArtistHolder extends BaseViewHolder<Artist> {
     public void bindItem(Artist artist) {
         itemView.setOnClickListener(v -> clickListener.onArtistClicked(artist, icon));
         artistName.setText(artist.getName());
-        artistListeners.setText(String.format("Listeners : %s", artist.getListenersCount()));
+        artistListeners.setText(String.format(itemView.getResources().getString(R.string.listeners_count), artist.getListenersCount()));
         loadImage(artist.getImageUrl(), icon);
     }
 }

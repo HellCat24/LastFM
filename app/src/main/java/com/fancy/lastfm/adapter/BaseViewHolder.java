@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.fancy.lastfm.CropCircleTransformation;
+import com.fancy.lastfm.utils.CropCircleTransformation;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
